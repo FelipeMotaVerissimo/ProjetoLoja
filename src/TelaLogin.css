@@ -1,0 +1,131 @@
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+#root {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Container principal de login - ocupa toda a tela */
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #111;
+  ;
+}
+
+/* Container do formulário - limitado e centralizado */
+.form-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 32px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Título e subtítulo */
+.form-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1f2937;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.form-subtitle {
+  font-size: 16px;
+  color: #4b5563;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* Mensagens de erro/sucesso */
+.error-message {
+  padding: 12px;
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.success-message {
+  padding: 12px;
+  background-color: #d1fae5;
+  color: #047857;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+/* Grupos de formulário */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+/* Campos de entrada */
+.form-input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 16px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+/* Botão de envio */
+.submit-button {
+  width: 100%;
+  padding: 10px 16px;
+  background-color: #9370DB;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 24px;
+}
+
+.submit-button:hover {
+  background-color: #1d4ed8;
+}
+
+/* Botão de alternância */
+.toggle-button {
+  background-color: transparent;
+  border: none;
+  color: #2563eb;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 16px;
+}
+
+.toggle-button:hover {
+  text-decoration: underline;
+}
+
+.text-center {
+  text-align: center;
+}
