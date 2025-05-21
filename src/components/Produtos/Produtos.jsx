@@ -135,6 +135,16 @@ export default function Produtos() {
           <span className="carrinho-contador">{totalItens}</span>
         </div>
       )}
+      <button
+  className="botao-sair"
+  onClick={() => {
+    localStorage.removeItem('isLoggedIn');
+    window.location.href = '/login';
+  }}
+>
+  Sair
+</button>
+
     </div>
   );
 }

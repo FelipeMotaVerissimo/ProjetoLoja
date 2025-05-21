@@ -3,15 +3,6 @@ import './App.css'
 import { useEffect } from 'react'
 
 function App() {
-  const navigate = useNavigate();
-  
-  useEffect(() => {
-    // Verifica se o usuário está logado
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
-    if (!isLoggedIn) {
-      navigate('/login');
-    }
-  }, []);
 
   return (
     <div className="app-container">
@@ -23,4 +14,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

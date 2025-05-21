@@ -27,3 +27,20 @@ a {
   margin: 0 auto;
   padding: 0 20px;
 }
+/* css botão sair */
+
+.app-header {
+  background-color: #eee;
+  border-bottom: 1px solid #ccc;
+}
+
+.app-header a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #333;
+}
+
+.app-header button:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
