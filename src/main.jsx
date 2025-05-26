@@ -1,12 +1,15 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import App from './App.jsx'
-import './index.css'
-import TelaLogin from './TelaLogin.jsx'
-import Produtos from './components/Produtos/Produtos.jsx'
-import Carrinho from './components/Carrinho/Carrinho.jsx'
-import PrivateRoute from './PrivateRoute.jsx' // <-- importa aqui
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
+import App from './App';
+import './index.css';
+
+import TelaLogin from './TelaLogin';
+import Produtos from './components/Produtos/Produtos';
+import PrivateRoute from './PrivateRoute';
+import DashboardProdutos from './pages/DashboardProdutos';
+import CriarProduto from './pages/CriarProduto';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -15,33 +18,37 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/login" element={<TelaLogin />} />
         <Route path="/" element={<App />}>
           <Route
-            path="produtos"
+            index
+            element={
+              <Navigate
+                to={localStorage.getItem('isLoggedIn') === 'true' ? '/produtos' : '/login'}
+                replace
+              />
+            }
+          />
+
+          {/* Loja (pública) */}
+          <Route path="produtos" element={<Produtos />} />
+
+          {/* Painel administrativo (protegido) */}
+          <Route
+            path="dashboard/produtos"
             element={
               <PrivateRoute>
-                <Produtos />
+                <DashboardProdutos />
               </PrivateRoute>
             }
           />
           <Route
-            path="carrinho"
+            path="dashboard/criar"
             element={
               <PrivateRoute>
-                <Carrinho />
+                <CriarProduto />
               </PrivateRoute>
             }
           />
-         <Route
-  index
-  element={
-    <Navigate
-      to={localStorage.getItem('isLoggedIn') === 'true' ? '/produtos' : '/login'}
-      replace
-    />
-  }
-/>
-
         </Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
-)
+);

@@ -1,0 +1,22 @@
+{
+  "produtos": [
+    {
+      "id": "1",
+      "nome": "Produto Exemplo",
+      "valor": 99.9,
+      "imagem": "https://images.kabum.com.br/produtos/fotos/180539/placa-de-video-gigabyte-geforce-rtx-3060-gaming-oc-12g-12-gb-gddr6-rev-2-0-ray-tracing-gv-3060gaming_1626461646_g.jpg"
+    },
+    {
+      "nome": "AMD Ryzen 7 5700X",
+      "valor": 350,
+      "imagem": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSOO267YNEZJ7vOO2HU6HJAzsK_NpZp35eqyfil_HYNl_pIaFoEBGdR1SIaMKhc0eCTCxKI-p_1LN_ceij8HRD4CBEMN3dulRD38_29z79Q0KWp4M8520KT8A",
+      "id": "c87f"
+    },
+    {
+      "id": "9156",
+      "nome": "Goku Drip",
+      "valor": 300,
+      "imagem": "https://i.pinimg.com/736x/7e/51/53/7e5153fea10317b079eca79431f3d2b9.jpg"
+    }
+  ]
+}

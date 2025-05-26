@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './TelaLogin.css'; // Importe o arquivo CSS específico
+import './TelaLogin.css';
 
 const TelaLogin = () => {
   const navigate = useNavigate();
@@ -13,6 +13,19 @@ const TelaLogin = () => {
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Limpa os estados quando alterna entre login e cadastro
+  useEffect(() => {
+    setError('');
+    setSuccess('');
+    setFormData({
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
+    });
+  }, [isLogin]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,91 +35,96 @@ const TelaLogin = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
+  const handleSubmit = async (e) => {
     if (e) e.preventDefault();
     setError('');
     setSuccess('');
+    setIsLoading(true);
 
-    // Validação básica
-    if (isLogin) {
-      if (!formData.email || !formData.password) {
-        setError('Por favor, preencha todos os campos');
-        return;
-      }
-      
-      // Simulação de login bem-sucedido
-      setSuccess('Login realizado com sucesso!');
-      
-      // Armazenar estado de login
-      localStorage.setItem('isLoggedIn', 'true');
-      
-      // Redirecionar para a página de produtos após login
-      setTimeout(() => {
+    try {
+      // Validação básica
+      if (isLogin) {
+        if (!formData.email || !formData.password) {
+          throw new Error('Por favor, preencha todos os campos');
+        }
+
+        if (!validateEmail(formData.email)) {
+          throw new Error('Por favor, insira um e-mail válido');
+        }
+
+        // Simulação de API
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        setSuccess('Login realizado com sucesso!');
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userEmail', formData.email);
+        
         navigate('/produtos');
-      }, 1500);
-      
-    } else {
-      // Validação para cadastro
-      if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
-        setError('Por favor, preencha todos os campos');
-        return;
-      }
-      
-      if (formData.password !== formData.confirmPassword) {
-        setError('As senhas não coincidem');
-        return;
-      }
-      
-      if (formData.password.length < 6) {
-        setError('A senha deve ter pelo menos 6 caracteres');
-        return;
-      }
-      
-      // Simulação de cadastro bem-sucedido
-      setSuccess('Cadastro realizado com sucesso! Você será redirecionado para fazer login.');
-      
-      // Limpar formulário e mudar para tela de login
-      setTimeout(() => {
+      } else {
+        // Validação para cadastro
+        if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
+          throw new Error('Por favor, preencha todos os campos');
+        }
+
+        if (!validateEmail(formData.email)) {
+          throw new Error('Por favor, insira um e-mail válido');
+        }
+
+        if (formData.password !== formData.confirmPassword) {
+          throw new Error('As senhas não coincidem');
+        }
+
+        if (formData.password.length < 6) {
+          throw new Error('A senha deve ter pelo menos 6 caracteres');
+        }
+
+        // Simulação de API
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        setSuccess('Cadastro realizado com sucesso! Redirecionando para login...');
         setIsLogin(true);
-        setFormData({
-          name: '',
-          email: '',
-          password: '',
-          confirmPassword: ''
-        });
-      }, 1500);
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const toggleForm = () => {
     setIsLogin(!isLogin);
-    setError('');
-    setSuccess('');
   };
 
   return (
     <div className="login-container">
       <div className="form-container">
-        <h1 className="form-title">
-          {isLogin ? 'Login' : 'Cadastro'}
-        </h1>
-        <p className="form-subtitle">
-          {isLogin ? 'Acesse sua conta' : 'Crie sua nova conta'}
-        </p>
+        <div className="form-header">
+          <h1 className="form-title">
+            {isLogin ? 'Login' : 'Cadastro'}
+          </h1>
+          <p className="form-subtitle">
+            {isLogin ? 'Acesse sua conta' : 'Crie sua nova conta'}
+          </p>
+        </div>
 
         {error && (
           <div className="error-message">
-            {error}
+            <span>⚠️</span> {error}
           </div>
         )}
 
         {success && (
           <div className="success-message">
-            {success}
+            <span>✓</span> {success}
           </div>
         )}
 
-        <div>
+        <form onSubmit={handleSubmit}>
           {!isLogin && (
             <div className="form-group">
               <label className="form-label" htmlFor="name">
@@ -120,6 +138,7 @@ const TelaLogin = () => {
                 onChange={handleChange}
                 className="form-input"
                 placeholder="Digite seu nome"
+                disabled={isLoading}
               />
             </div>
           )}
@@ -136,6 +155,7 @@ const TelaLogin = () => {
               onChange={handleChange}
               className="form-input"
               placeholder="seu@email.com"
+              disabled={isLoading}
             />
           </div>
 
@@ -151,6 +171,7 @@ const TelaLogin = () => {
               onChange={handleChange}
               className="form-input"
               placeholder={isLogin ? "Digite sua senha" : "Crie uma senha"}
+              disabled={isLoading}
             />
           </div>
 
@@ -167,23 +188,30 @@ const TelaLogin = () => {
                 onChange={handleChange}
                 className="form-input"
                 placeholder="Confirme sua senha"
+                disabled={isLoading}
               />
             </div>
           )}
 
           <button
-            onClick={handleSubmit}
-            className="submit-button"
+            type="submit"
+            className={`submit-button ${isLoading ? 'loading' : ''}`}
+            disabled={isLoading}
           >
-            {isLogin ? 'Entrar' : 'Cadastrar'}
+            {isLoading ? (
+              <span className="spinner"></span>
+            ) : (
+              isLogin ? 'Entrar' : 'Cadastrar'
+            )}
           </button>
-        </div>
+        </form>
 
-        <div className="text-center">
+        <div className="form-footer">
           <button
             type="button"
             onClick={toggleForm}
             className="toggle-button"
+            disabled={isLoading}
           >
             {isLogin ? 'Não tem uma conta? Cadastre-se' : 'Já tem uma conta? Faça login'}
           </button>
